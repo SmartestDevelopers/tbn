@@ -8,7 +8,7 @@ export default function Footer() {
             <div className="container mx-auto px-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
                     <div className="space-y-6">
-                        <div className="bg-white rounded-xl shadow-lg p-3 w-60 h-20 flex items-center justify-center mb-6">
+                        <div className="bg-white rounded-xl shadow-md p-2 w-48 h-14 flex items-center justify-center mb-6">
                             <div className="relative w-full h-full">
                                 <Image
                                     src="https://img1.wsimg.com/isteam/ip/229ea690-42c2-4058-a5c9-f993ebb37281/blob.png/:/rs=h:265,cg:true,m/qt=q:100/ll"

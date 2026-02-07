@@ -54,7 +54,7 @@ export default function Header({ variant = 'dark' }: HeaderProps) {
         >
             <div className="container mx-auto px-4 flex items-center justify-between">
                 <Link href="/" className="flex items-center group">
-                    <div className="relative w-60 h-20 bg-white rounded-xl shadow-lg p-3 transition-transform group-hover:scale-105 duration-500 flex items-center justify-center">
+                    <div className="relative w-48 h-14 bg-white rounded-xl shadow-md p-2 transition-transform group-hover:scale-105 duration-500 flex items-center justify-center">
                         <Image
                             src="https://img1.wsimg.com/isteam/ip/229ea690-42c2-4058-a5c9-f993ebb37281/blob.png/:/rs=h:265,cg:true,m/qt=q:100/ll"
                             alt="The Global Notariat Official Logo"
