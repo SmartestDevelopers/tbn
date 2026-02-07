@@ -6,15 +6,22 @@ import BlogVerticalCarousel from "@/components/sections/BlogVerticalCarousel";
 import Subscribe from "@/components/sections/Subscribe";
 import { prisma } from "@/lib/prisma";
 import Image from "next/image";
+import { BlogPost } from "@prisma/client";
 
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-  const blogs = await prisma.blogPost.findMany({
-    where: { published: true },
-    orderBy: { createdAt: 'desc' },
-    take: 6
-  });
+  let blogs: BlogPost[] = [];
+  try {
+    blogs = await prisma.blogPost.findMany({
+      where: { published: true },
+      orderBy: { createdAt: 'desc' },
+      take: 6
+    });
+  } catch (error) {
+    console.error("Failed to fetch blogs:", error);
+    // blogs remains an empty array
+  }
 
   return (
     <main className="min-h-screen">
