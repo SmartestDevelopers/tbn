@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  password      String?
+  role          String    @default("admin")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model HeroSection {
+  id          String    @id @default(cuid())
+  title       String
+  subtitle    String
+  buttonText  String
+  imageUrl    String?
+  updatedAt   DateTime  @updatedAt
+}
+
+model AboutSection {
+  id          String    @id @default(cuid())
+  title       String
+  content     String    @db.LongText
+  imageUrl    String?
+  updatedAt   DateTime  @updatedAt
+}
+
+model Service {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  title       String
+  description String    @db.Text
+  fullDesc    String?   @db.LongText
+  features    String?   @db.Text // Store as comma-separated or JSON string
+  icon        String?
+  order       Int       @default(0)
+  updatedAt   DateTime  @updatedAt
+}
+
+model Subscriber {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}
+
+model ContactMessage {
+  id        String    @id @default(cuid())
+  name      String
+  email     String
+  subject   String?
+  message   String    @db.LongText
+  status    String    @default("new")
+  createdAt DateTime  @default(now())
+}
+
+model SiteSettings {
+  id            String    @id @default(cuid())
+  siteName      String    @default("The Global Notariat")
+  contactEmail  String?
+  contactPhone  String?
+  address       String?   @db.Text
+  facebookUrl   String?
+  twitterUrl    String?
+  instagramUrl  String?
+  updatedAt     DateTime  @updatedAt
+}
+
+model BlogPost {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  title       String
+  excerpt     String    @db.Text
+  content     String    @db.LongText
+  coverImage  String?
+  author      String    @default("The Global Notariat Team")
+  category    String    @default("General")
+  published   Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  // SEO fields
+  seoTitle       String?
+  seoDescription String? @db.Text
+}
