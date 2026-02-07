@@ -6,17 +6,29 @@ import Link from 'next/link';
 export const dynamic = 'force-dynamic';
 
 export default async function AdminDashboard() {
-    const stats = [
-        { label: 'Total Messages', value: await prisma.contactMessage.count(), icon: <MessageSquare />, color: 'text-blue-600 bg-blue-50' },
-        { label: 'New Messages', value: await prisma.contactMessage.count({ where: { status: 'new' } }), icon: <MessageSquare />, color: 'text-green-600 bg-green-50' },
-        { label: 'Active Services', value: await prisma.service.count(), icon: <Shield />, color: 'text-gold-600 bg-gold-50' },
-        { label: 'Admin Users', value: await prisma.user.count(), icon: <Users />, color: 'text-purple-600 bg-purple-50' },
+    let stats = [
+        { label: 'Total Messages', value: 0, icon: <MessageSquare />, color: 'text-blue-600 bg-blue-50' },
+        { label: 'New Messages', value: 0, icon: <MessageSquare />, color: 'text-green-600 bg-green-50' },
+        { label: 'Active Services', value: 0, icon: <Shield />, color: 'text-gold-600 bg-gold-50' },
+        { label: 'Admin Users', value: 0, icon: <Users />, color: 'text-purple-600 bg-purple-50' },
     ];
+    let recentMessages: any[] = [];
 
-    const recentMessages = await prisma.contactMessage.findMany({
-        orderBy: { createdAt: 'desc' },
-        take: 5,
-    });
+    try {
+        stats = [
+            { label: 'Total Messages', value: await prisma.contactMessage.count(), icon: <MessageSquare />, color: 'text-blue-600 bg-blue-50' },
+            { label: 'New Messages', value: await prisma.contactMessage.count({ where: { status: 'new' } }), icon: <MessageSquare />, color: 'text-green-600 bg-green-50' },
+            { label: 'Active Services', value: await prisma.service.count(), icon: <Shield />, color: 'text-gold-600 bg-gold-50' },
+            { label: 'Admin Users', value: await prisma.user.count(), icon: <Users />, color: 'text-purple-600 bg-purple-50' },
+        ];
+
+        recentMessages = await prisma.contactMessage.findMany({
+            orderBy: { createdAt: 'desc' },
+            take: 5,
+        });
+    } catch (error) {
+        console.error("Admin dashboard data fetch failed:", error);
+    }
 
     return (
         <div className="flex bg-gray-50 min-h-screen">

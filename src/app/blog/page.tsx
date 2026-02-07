@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { BlogPost } from "@prisma/client";
 import Link from "next/link";
 import Image from "next/image";
 import Header from "@/components/Header";
@@ -16,10 +17,15 @@ export const metadata = {
 };
 
 export default async function BlogPage() {
-    const posts = await prisma.blogPost.findMany({
-        where: { published: true },
-        orderBy: { createdAt: 'desc' }
-    });
+    let posts: BlogPost[] = [];
+    try {
+        posts = await prisma.blogPost.findMany({
+            where: { published: true },
+            orderBy: { createdAt: 'desc' }
+        });
+    } catch (error) {
+        console.error("Failed to fetch blog posts:", error);
+    }
 
     const categories = Array.from(new Set(posts.map(p => p.category)));
 
