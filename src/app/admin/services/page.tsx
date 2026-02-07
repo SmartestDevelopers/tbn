@@ -3,6 +3,8 @@ import AdminSidebar from "@/components/admin/Sidebar";
 import { Plus } from "lucide-react";
 import ServicesClient from "@/components/admin/ServicesClient";
 
+export const dynamic = 'force-dynamic';
+
 export default async function AdminServices() {
     const services = await prisma.service.findMany({
         orderBy: { order: 'asc' },

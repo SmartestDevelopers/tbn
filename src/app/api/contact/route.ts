@@ -2,20 +2,22 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { sendMail } from '@/lib/mail';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: Request) {
-    try {
-        const { name, email, subject, message } = await req.json();
+  try {
+    const { name, email, subject, message } = await req.json();
 
-        // 1. Save to Database
-        const contact = await prisma.contactMessage.create({
-            data: { name, email, subject, message },
-        });
+    // 1. Save to Database
+    const contact = await prisma.contactMessage.create({
+      data: { name, email, subject, message },
+    });
 
-        // 2. Send Notification Email
-        await sendMail(
-            process.env.MAIL_FROM_ADDRESS!,
-            `New Contact Form: ${subject}`,
-            `
+    // 2. Send Notification Email
+    await sendMail(
+      process.env.MAIL_FROM_ADDRESS!,
+      `New Contact Form: ${subject}`,
+      `
 <!DOCTYPE html>
 <html>
 <head>
@@ -73,11 +75,11 @@ export async function POST(req: Request) {
 </body>
 </html>
             `
-        );
+    );
 
-        return NextResponse.json({ success: true, id: contact.id });
-    } catch (error) {
-        console.error('Contact API Error:', error);
-        return NextResponse.json({ error: 'Failed to process request' }, { status: 500 });
-    }
+    return NextResponse.json({ success: true, id: contact.id });
+  } catch (error) {
+    console.error('Contact API Error:', error);
+    return NextResponse.json({ error: 'Failed to process request' }, { status: 500 });
+  }
 }

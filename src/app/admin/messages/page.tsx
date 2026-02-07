@@ -3,6 +3,8 @@ import AdminSidebar from "@/components/admin/Sidebar";
 import { Mail, Clock, MessageSquare } from "lucide-react";
 import MessageActionButtons from "@/components/admin/MessageActionButtons";
 
+export const dynamic = 'force-dynamic';
+
 export default async function AdminMessages() {
     const messages = await prisma.contactMessage.findMany({
         orderBy: { createdAt: 'desc' },

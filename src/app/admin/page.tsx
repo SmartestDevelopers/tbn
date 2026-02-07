@@ -3,6 +3,8 @@ import AdminSidebar from "@/components/admin/Sidebar";
 import { MessageSquare, Shield, Users, ArrowUpRight } from "lucide-react";
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 export default async function AdminDashboard() {
     const stats = [
         { label: 'Total Messages', value: await prisma.contactMessage.count(), icon: <MessageSquare />, color: 'text-blue-600 bg-blue-50' },
