@@ -7,16 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model aboutsection {
-  id        String   @id
+model AboutSection {
+  id        String   @id @default(cuid())
   title     String
   content   String   @db.LongText
   imageUrl  String?
-  updatedAt DateTime
+  updatedAt DateTime @updatedAt
+
+  @@map("aboutsection")
 }
 
-model blogpost {
-  id             String   @id
+model BlogPost {
+  id             String   @id @default(cuid())
   slug           String   @unique(map: "BlogPost_slug_key")
   title          String
   excerpt        String   @db.Text
@@ -26,44 +28,52 @@ model blogpost {
   category       String   @default("General")
   published      Boolean  @default(true)
   createdAt      DateTime @default(now())
-  updatedAt      DateTime
+  updatedAt      DateTime @updatedAt
   seoTitle       String?
   seoDescription String?  @db.Text
+
+  @@map("blogpost")
 }
 
-model contactmessage {
-  id        String   @id
+model ContactMessage {
+  id        String   @id @default(cuid())
   name      String
   email     String
   subject   String?
   message   String   @db.LongText
   status    String   @default("new")
   createdAt DateTime @default(now())
+
+  @@map("contactmessage")
 }
 
-model herosection {
-  id         String   @id
+model HeroSection {
+  id         String   @id @default(cuid())
   title      String
   subtitle   String
   buttonText String
   imageUrl   String?
-  updatedAt  DateTime
+  updatedAt  DateTime @updatedAt
+
+  @@map("herosection")
 }
 
-model service {
-  id          String   @id
+model Service {
+  id          String   @id @default(cuid())
   title       String
   description String   @db.Text
   icon        String?
   order       Int      @default(0)
-  updatedAt   DateTime
+  updatedAt   DateTime @updatedAt
   features    String?  @db.Text
   fullDesc    String?  @db.LongText
   slug        String   @unique(map: "Service_slug_key")
+
+  @@map("service")
 }
 
-model sitesettings {
-  id           String   @id
+model SiteSettings {
+  id           String   @id @default(cuid())
   siteName     String   @default("The Global Notariat")
   contactEmail String?
   contactPhone String?
@@ -71,21 +81,27 @@ model sitesettings {
   facebookUrl  String?
   twitterUrl   String?
   instagramUrl String?
-  updatedAt    DateTime
+  updatedAt    DateTime @updatedAt
+
+  @@map("sitesettings")
 }
 
-model subscriber {
-  id        String   @id
+model Subscriber {
+  id        String   @id @default(cuid())
   email     String   @unique(map: "Subscriber_email_key")
   createdAt DateTime @default(now())
+
+  @@map("subscriber")
 }
 
-model user {
-  id        String   @id
+model User {
+  id        String   @id @default(cuid())
   name      String?
   email     String?  @unique(map: "User_email_key")
   password  String?
   role      String   @default("admin")
   createdAt DateTime @default(now())
-  updatedAt DateTime
+  updatedAt DateTime @updatedAt
+
+  @@map("user")
 }
